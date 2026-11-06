@@ -6,7 +6,7 @@
 
 # ZMK config: TOTEM and Corne
 
-One branch (`main`) builds every keyboard and every mode. `build.yaml` decides
+One branch (`master`) builds every keyboard and every mode. `build.yaml` decides
 what CI actually builds; anything not in use is commented out.
 
 ZMK is pinned to `v0.2` in `config/west.yml` and `.github/workflows/build.yml`.
