@@ -1,0 +1,10 @@
+description: Periodically taps a key; param 1 = on, 0 = off
+compatible: "zmk,behavior-keepalive"
+include: one_param.yaml
+properties:
+  keycode:
+    type: int
+    required: true
+  interval-ms:
+    type: int
+    default: 60000

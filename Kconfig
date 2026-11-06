@@ -1,0 +1,5 @@
+config ZMK_BEHAVIOR_KEEPALIVE
+    bool
+    default y
+    depends on DT_HAS_ZMK_BEHAVIOR_KEEPALIVE_ENABLED
+    depends on !ZMK_SPLIT || ZMK_SPLIT_ROLE_CENTRAL
