@@ -1,17 +1,36 @@
 # Copyright (c) 2022 The ZMK Contributors
 # SPDX-License-Identifier: MIT
 
+# Bluetooth mode: left half is central.
+# Dongle mode: build totem_left with -DCONFIG_ZMK_SPLIT_ROLE_CENTRAL=n
+# (see build.yaml) and the dongle becomes central instead.
 if SHIELD_TOTEM_LEFT
 
 config ZMK_KEYBOARD_NAME
     default "TOTEM"
-    
+
 config ZMK_SPLIT_ROLE_CENTRAL
     default y
 
 endif
 
-if SHIELD_TOTEM_LEFT || SHIELD_TOTEM_RIGHT
+if SHIELD_TOTEM_DONGLE
+
+config ZMK_KEYBOARD_NAME
+    default "TOTEM"
+
+config ZMK_SPLIT_ROLE_CENTRAL
+    default y
+
+config ZMK_USB
+    default y
+
+config ZMK_BLE
+    default y
+
+endif
+
+if SHIELD_TOTEM_LEFT || SHIELD_TOTEM_RIGHT || SHIELD_TOTEM_DONGLE
 
 config ZMK_SPLIT
     default y
