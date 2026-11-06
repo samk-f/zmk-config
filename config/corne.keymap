@@ -1,0 +1,138 @@
+/*
+ * Corne (42 keys) - derived from totem.keymap.
+ *
+ * Same layers and behaviours as the TOTEM. Differences:
+ *  - outer column, rows 1-2: spare (&none on Base, &trans elsewhere)
+ *  - ESC and CAPS/APOSTROPHE on the outer column of row 3, as on the TOTEM
+ *  - combo key-positions renumbered for the 42-key matrix
+ *
+ * Keep in step with totem.keymap by hand (see readme).
+ */
+
+#include "keys_en_gb.h"
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/keys.h>
+
+#define Base        0
+#define Nav         1
+#define Sym         2
+#define Func        3
+
+&mt {
+    quick-tap-ms = <100>;
+    global-quick-tap;
+    flavor = "tap-preferred";
+    tapping-term-ms = <170>;
+};
+
+&lt {
+    tapping-term-ms = <240>;
+    flavor = "balanced";
+    quick-tap-ms = <175>;
+};
+
+/ {
+    behaviors {
+        hm: homerow_mods {
+            compatible = "zmk,behavior-hold-tap";
+            label = "HOMEROW_MODS";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <150>;
+            quick-tap-ms = <100>;
+            global-quick-tap;
+            bindings = <&kp>, <&kp>;
+        };
+
+        keepalive: keepalive {
+            compatible = "zmk,behavior-keepalive";
+            #binding-cells = <1>;
+            keycode = <F15>;
+            interval-ms = <240000>;
+        };
+    };
+
+    combos {
+        compatible = "zmk,combos";
+
+        Game {
+            bindings = <&tog 5>;
+            key-positions = <36 41>;
+        };
+
+        KeepAliveOn {
+            bindings = <&keepalive 1>;
+            key-positions = <1 10>;
+            timeout-ms = <50>;
+        };
+
+        KeepAliveOff {
+            bindings = <&keepalive 0>;
+            key-positions = <25 34>;
+            timeout-ms = <50>;
+        };
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+
+        Base {
+            display-name = "Base";
+            bindings = <
+            &none       &kp Q       &kp W       &kp E         &kp R        &kp T      &kp Y          &kp U          &kp I        &kp O       &kp P               &none
+            &none       &hm LGUI A  &hm LALT S  &hm LCTRL D   &hm LSHFT F  &kp G      &kp H          &hm RSHFT J    &hm LCTRL K  &hm RALT L  &hm RGUI SEMICOLON  &none
+            &kp ESCAPE  &kp Z       &kp X       &kp C         &kp V        &kp B      &kp N          &kp M          &kp COMMA    &kp DOT     &kp SLASH           &mt CAPS APOSTROPHE
+                                                &lt 4 DELETE  &lt Nav TAB  &kp SPACE  &kp BACKSPACE  &lt Sym ENTER  &kp MINUS
+            >;
+        };
+
+        Nav {
+            display-name = "Nav";
+            bindings = <
+            &trans        &kp N1          &kp N2      &kp N3   &kp N4    &kp N5     &kp N6           &kp N7               &kp N8               &kp N9     &kp N0  &trans
+            &trans        &kp LEFT_SHIFT  &kp PG_DN   &kp END  &kp HOME  &kp PG_UP  &kp LEFT         &kp DOWN             &kp UP               &kp RIGHT  &trans  &trans
+            &kp LEFT_ALT  &kp LEFT_GUI    &kp ESCAPE  &kp TAB  &kp BSPC  &kp DEL    &kp PRINTSCREEN  &kp LC(PRINTSCREEN)  &kp LA(PRINTSCREEN)  &trans     &trans  &trans
+                                                      &trans   &trans    &trans     &trans           &trans               &trans
+            >;
+        };
+
+        Sym {
+            display-name = "Sym";
+            bindings = <
+            &trans       &kp GB_EXCL   &kp GB_DOUBLE_QUOTES  &kp GB_POUND_SIGN  &kp GB_DOLLAR  &kp GB_PERCENT  &kp GB_CARET  &kp GB_AMPS   &kp GB_ASTRK  &kp GB_LPAR   &kp GB_RPAR  &trans
+            &trans       &kp GB_EQUAL  &kp GB_MINUS          &kp GB_PLUS        &kp GB_UNDER   &kp GB_FSLH     &kp GB_BSLH   &kp GB_PIPE   &kp GB_COLON  &kp GB_SEMI   &kp GB_SQT   &trans
+            &kp GB_LBKT  &kp GB_RBKT   &kp GB_LBRC           &kp GB_RBRC        &kp GB_LT      &kp GB_GT       &kp GB_DOT    &kp GB_COMMA  &kp GB_GRAVE  &kp GB_TILDE  &trans       &kp GB_HASH
+                                                             &trans             &trans         &trans          &trans        &trans        &trans
+            >;
+        };
+
+        Func {
+            display-name = "Func";
+            bindings = <
+            &trans  &kp F1        &kp F2        &kp F3      &kp F4      &kp F5      &kp F6      &kp F7        &kp F8        &kp F9           &kp F10  &trans
+            &trans  &kp C_VOL_DN  &kp C_VOL_UP  &kp C_MUTE  &kp C_PLAY  &kp C_NEXT  &kp C_PREV  &kp C_BRI_DN  &kp C_BRI_UP  &kp PRINTSCREEN  &trans   &trans
+            &trans  &trans        &trans        &trans      &trans      &trans      &trans      &trans        &trans        &trans           &trans   &trans
+                                                &trans      &trans      &trans      &trans      &trans        &trans
+            >;
+        };
+
+        Niri {
+            bindings = <
+            &trans        &kp LG(N1)    &kp LG(N2)    &kp LG(N3)    &kp LG(N4)    &kp LG(N5)  &kp LG(LC(LEFT))            &kp LG(LC(DOWN))            &kp LG(LC(UP))            &kp LG(LC(RIGHT))            &trans  &trans
+            &trans        &trans        &trans        &trans        &trans        &trans      &kp LG(LEFT_ARROW)          &kp LG(DOWN_ARROW)          &kp LG(UP)                &kp LG(RIGHT)                &trans  &trans
+            &bt BT_SEL 0  &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4  &bt BT_CLR  &kp LG(LS(LC(LEFT_ARROW)))  &kp LG(LS(LC(DOWN_ARROW)))  &kp LG(LS(LC(UP_ARROW)))  &kp LG(LS(LC(RIGHT_ARROW)))  &trans  &trans
+                                                      &trans        &trans        &trans      &trans                      &trans                      &trans
+            >;
+        };
+
+        Game {
+            bindings = <
+            &trans  &trans  &trans  &trans            &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+            &trans  &kp A   &kp S   &kp D             &kp F   &trans  &trans  &trans  &trans  &trans  &trans  &trans
+            &trans  &trans  &trans  &trans            &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans
+                                    &mt LEFT_ALT TAB  &trans  &trans  &trans  &trans  &trans
+            >;
+        };
+    };
+};
